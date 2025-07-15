@@ -15,8 +15,11 @@ route::get('/contact', function(){
 });
 
 Route::get('/jobs',function () {
+    // $jobs = Job::all();   //lazy loading
+    // $jobs = Job::with('employer')->get(); // eager loading
+    $jobs = Job::with('employer')->simplePaginate(3);
     return view('jobs',[
-        'jobs' => Job::all()
+        'jobs' => $jobs
     ]);
 });
 
@@ -29,4 +32,4 @@ Route::get('/jobs/{id}', function($id) {
 });
 
 
-//2:02:07
+//3:07:00
