@@ -2,17 +2,75 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use Illuminate\Http\Request;
-use App\models\Job;
 
 class JobController extends Controller
 {
     public function index(){
-         // $jobs = Job::all();   //lazy loading
+        // $jobs = Job::all();   //lazy loading
         // $jobs = Job::with('employer')->get(); // eager loading
         $jobs = Job::with('employer')->latest()->simplePaginate(3);
         return view('jobs.index',[
-            'jobs' => $jobs
+            'jobs'=>$jobs
         ]);
     }
+
+    public function create(){
+        return view('jobs.create');
+    }
+
+    public function show(Job $job){
+        // $job = Job::find($id);
+        return view('jobs.show', ['job' => $job]);
+    }
+
+    public function store(){
+        request()->validate([
+        'title' => ['required', 'min:3'],
+        'salary' => ['required', '']
+
+    ]);
+
+    Job::create([
+        'title' => request('title'),
+        'salary' => request('salary'),
+        'employer_id' => 1
+    ]);
+
+    return redirect('/jobs');
+
+    }
+
+    public function edit(Job $job){
+        return view('jobs.edit',['job'=>$job]);
+    }
+
+    public function update(Job $job){
+        // validate
+   request()->validate([
+        'title' => ['required', 'min:3'],
+        'salary' => ['required', '']
+
+    ]);
+
+   //authorize
+
+   //update
+    // $job = Job::findOrFail($id);
+
+    $job->update([
+        'title' => request('title'),
+        'salary'=>request('salary')
+    ]);
+   //and persist
+   //rediret to the job page
+   return redirect('/jobs/' . $job->id);
+    }
+
+    public function destroy(Job $job){
+         $job->delete();
+        return redirect('/jobs');
+    }
+
 }
