@@ -48,7 +48,7 @@ class JobController extends Controller
 
     public function update(Job $job){
         // validate
-   request()->validate([
+        request()->validate([
         'title' => ['required', 'min:3'],
         'salary' => ['required', '']
 
@@ -65,7 +65,7 @@ class JobController extends Controller
     ]);
    //and persist
    //rediret to the job page
-   return redirect('/jobs/' . $job->id);
+   return redirect('/jobs/' . $job->$job);
     }
 
     public function destroy(Job $job){
