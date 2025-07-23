@@ -38,6 +38,13 @@ f
             <x-nav-link href="/login" :active="request()->is('login')">Log In</x-nav-link>
             <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
             @endguest
+              
+            @auth
+            <form method= "POST" action="/logout">
+              @csrf
+              <x-form-button>Log Out</x-form-button>
+            </form>
+            @endauth
                         
           </div>
         </div>
@@ -69,9 +76,9 @@ f
       </div>
       <div class="border-t border-gray-700 pt-4 pb-3">
         <div class="flex items-center px-5">
-          <div class="shrink-0">
+          <!-- <div class="shrink-0">
             <img class="size-10 rounded-full" src="{{ asset("storage/jaleed.jpg") }}" alt="" />
-          </div>
+          </div> -->
           <div class="ml-3">
             <div class="text-base/5 font-medium text-white">Jaleed Khan</div>
             <div class="text-sm font-medium text-gray-400">jaleedkhan@example.com</div>
